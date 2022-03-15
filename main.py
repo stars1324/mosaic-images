@@ -149,4 +149,4 @@ def run(img_path, merge_img_dir):
     print('done')
 
 
-run('./8891.jpg', '../8891-images/images')
+run('./input.jpg', './bg')
