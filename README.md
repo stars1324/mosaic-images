@@ -11,6 +11,8 @@ python3.6 +
 
 * 将需要输入的图片改成 input.jpg
 * 将需要合成的背景图放到bg目录下
+  * spider为初步的例子，下载的为我的偶像张国荣的图片
+    * 执行方式：python3 spider.py
 * 执行 python main.py
 
 修改背景图的精细度
