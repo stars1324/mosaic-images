@@ -4,3 +4,6 @@ numpy
 tqdm
 requests
 lxml
+flask
+flask-cors
+waitress
