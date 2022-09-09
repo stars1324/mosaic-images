@@ -145,8 +145,8 @@ def run(img_path, merge_img_dir):
             new_image[j * mini_image_h:(j + 1) * mini_image_h, i * mini_image_w:(i + 1) * mini_image_w, :] = np_mapping[
                 max(selection, key=lambda kv: kv[1])[0]]
     image = Image.fromarray(new_image)
-    image.save('output.jpg')
+    image.save('demo/output.jpg')
     print('done')
 
 
-run('./input.jpg', './bg')
+run('./demo/input.jpg', './bg')

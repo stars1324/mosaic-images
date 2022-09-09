@@ -1,15 +1,18 @@
 # -*- utf-8 -*-
 import requests
 from lxml import etree
+import requests.packages.urllib3
+
+requests.packages.urllib3.disable_warnings()
 
 url = "https://movie.douban.com/celebrity/1003494/photos/?type=C&start=%s&sortby=like&size=a&subtype=a"
 headers = {
-    'User-Agent':'Mozilla/5.0 (iPhone; CPU iPhone OS 10_3_1 like Mac OS X) AppleWebKit/603.1.30 (KHTML, like Gecko) Version/10.0 Mobile/14E304 Safari/602.1',
-    'referer':'https://movie.douban.com/celebrity/1003494/photos/?type=C&start=30&sortby=like&size=a&subtype=a'
+    'User-Agent':'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.0.0 Safari/537.36',
+    'referer':'https://movie.douban.com/celebrity/1003494/photos/?type=C&start=%s&sortby=like&size=a&subtype=a'
 }
 for i in range(20):
     print('第%d页' % i)
-    html = etree.HTML(requests.get(url % (i * 30), headers=headers).content.decode())
+    html = etree.HTML(requests.get(url % (i * 30), headers=headers, verify=False).content.decode())
     img_links = html.xpath('//*[@class="cover"]/a/img/@src')
     for img_link in img_links:
         body = requests.get(img_link, headers=headers).content
