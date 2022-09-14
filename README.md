@@ -21,6 +21,11 @@ python3.6 +
 修改背景图的精细度
 > replace_num = 100 
 
+## todo list
+* 添加其他spider
+* 制作Python包
+* 添加web服务
+
 ## 效果展示
 ![原图](./demo/input.jpg) ![输出图](./demo/output.jpg)
 
