@@ -18,13 +18,18 @@ python3.6 +
     * 执行方式：python3 spider.py
 * 执行 python main.py
 
+## web运行
+python3 web/app.py
+> 目前ui有待修改
+> 速度有待提升
+
 修改背景图的精细度
 > replace_num = 100 
 
 ## todo list
 * 添加其他spider
 * 制作Python包
-* 添加web服务
+
 
 ## 效果展示
 ![原图](./demo/input.jpg) ![输出图](./demo/output.jpg)
