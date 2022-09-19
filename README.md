@@ -28,9 +28,12 @@ python3 web/app.py
 > replace_num = 100 
 
 ## todo list
+* 代码优化
 * 添加其他spider
 * 制作Python包
-
+* go 版本
+* php 版本
+* docker 部署
 
 ## 效果展示
 ![原图](./demo/input.jpg) ![输出图](./demo/output.jpg)
