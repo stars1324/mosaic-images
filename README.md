@@ -17,11 +17,12 @@ python3.6 +
   * spider为初步的例子，下载的为我的偶像张国荣的图片
     * 执行方式：python3 spider.py
 * 执行 python main.py
+* 如果自己有更换了bg的图片，则需要删掉data下面的所有文件，让他重新生成对象序列化
 
 ## web运行
 python3 web/app.py
 > 目前ui有待修改
-> 速度有待提升
+> 代码有待优化，目前仅实现了现行流程（本作者非专业Python工程师）
 
 修改背景图的精细度
 > replace_num = 100 

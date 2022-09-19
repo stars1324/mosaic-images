@@ -1,6 +1,7 @@
 
 # 导入包
 import os
+import pickle
 
 import cv2
 from PIL import Image
@@ -93,23 +94,44 @@ class Mosaic():
         new_image_w = mini_image_w * replace_num
         new_image_h = ((new_image_w / image_origin_w) * image_origin_h // mini_image_h) * mini_image_h
 
-        # 先将图片映射好，方便操作
-        np_mapping, calc_bgr_mapping, orb_mapping, a_hash_mapping, avg_rgb_mapping = {}, {}, {}, {}, {}
+        base_path = os.path.abspath(os.path.dirname(__file__))
+        if os.path.exists(base_path + '/../data/a_hash_mapping'):
+            f1 = open(base_path + '/../data/avg_rgb_mapping', 'rb')
+            f2 = open(base_path + '/../data/a_hash_mapping', 'rb')
+            f3 = open(base_path + '/../data/np_mapping', 'rb')
+            avg_rgb_mapping = pickle.load(f1)
+            a_hash_mapping = pickle.load(f2)
+            np_mapping = pickle.load(f3)
+            f1.close()
+            f2.close()
+            f3.close()
+        else:
+            # 先将图片映射好，方便操作
+            np_mapping, calc_bgr_mapping, orb_mapping, a_hash_mapping, avg_rgb_mapping = {}, {}, {}, {}, {}
 
-        for k, file in tqdm(enumerate(os.listdir(self.bg)), desc='mapping映射中'):
-            img = Image.open(self.bg + '/' + file).convert('RGB').resize((mini_image_w, mini_image_h),
-                                                                         Image.ANTIALIAS)
-            np_mapping[file] = np.array(img)
+            for k, file in tqdm(enumerate(os.listdir(self.bg)), desc='mapping映射中'):
+                img = Image.open(self.bg + '/' + file).convert('RGB').resize((mini_image_w, mini_image_h),
+                                                                             Image.ANTIALIAS)
+                np_mapping[file] = np.array(img)
 
-            # 平均色值
-            avg_rgb_mapping[file] = np.array([np.mean(np_mapping[file][:, :, 0]), np.mean(np_mapping[file][:, :, 1]),
-                                              np.mean(np_mapping[file][:, :, 2])])
+                # 平均色值
+                avg_rgb_mapping[file] = np.array([np.mean(np_mapping[file][:, :, 0]), np.mean(np_mapping[file][:, :, 1]),
+                                                  np.mean(np_mapping[file][:, :, 2])])
 
-            # 保存所有图片的hash 值的二进制数值
-            a_hash_mapping[file] = self.hash_img_code(np.array(img.convert('L').resize((8, 8), Image.ANTIALIAS)))
+                # 保存所有图片的hash 值的二进制数值
+                a_hash_mapping[file] = self.hash_img_code(np.array(img.convert('L').resize((8, 8), Image.ANTIALIAS)))
 
-            # 保存所有的图片的直方图数据
-            calc_bgr_mapping[file] = self.calc_bgr_hist(np.array(img))
+                # 保存所有的图片的直方图数据
+                # calc_bgr_mapping[file] = self.calc_bgr_hist(np.array(img))
+                f1 = open(base_path + '/../data/avg_rgb_mapping', 'wb')
+                f2 = open(base_path + '/../data/a_hash_mapping', 'wb')
+                f3 = open(base_path + '/../data/np_mapping', 'wb')
+                pickle.dump(avg_rgb_mapping, f1)
+                pickle.dump(a_hash_mapping, f2)
+                pickle.dump(np_mapping, f3)
+                f1.close()
+                f2.close()
+                f3.close()
 
         # 将图片扩大为新图片的大小
         # 将图片转成jpg格式
