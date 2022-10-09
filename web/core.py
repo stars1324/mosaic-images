@@ -17,6 +17,11 @@ class Mosaic():
         self.input_filename = input_filename
         self.output_filename = output_filename
         self.bg = bg
+
+        base_path = os.path.abspath(os.path.dirname(__file__))
+        self.avg_rbg_mapping_path = base_path + '/../data/avg_rgb_mapping'
+        self.a_hash_mapping_path = base_path + '/../data/a_hash_mapping'
+        self.np_mapping_path = base_path + '/../data/np_mapping'
         pass
 
     def similarity_orb(self, des1, des2):
@@ -95,10 +100,10 @@ class Mosaic():
         new_image_h = ((new_image_w / image_origin_w) * image_origin_h // mini_image_h) * mini_image_h
 
         base_path = os.path.abspath(os.path.dirname(__file__))
-        if os.path.exists(base_path + '/../data/a_hash_mapping'):
-            f1 = open(base_path + '/../data/avg_rgb_mapping', 'rb')
-            f2 = open(base_path + '/../data/a_hash_mapping', 'rb')
-            f3 = open(base_path + '/../data/np_mapping', 'rb')
+        if os.path.exists(self.avg_rbg_mapping_path):
+            f1 = open(self.avg_rbg_mapping_path, 'rb')
+            f2 = open(self.a_hash_mapping_path, 'rb')
+            f3 = open(self.np_mapping_path, 'rb')
             avg_rgb_mapping = pickle.load(f1)
             a_hash_mapping = pickle.load(f2)
             np_mapping = pickle.load(f3)
@@ -123,9 +128,9 @@ class Mosaic():
 
                 # 保存所有的图片的直方图数据
                 # calc_bgr_mapping[file] = self.calc_bgr_hist(np.array(img))
-                f1 = open(base_path + '/../data/avg_rgb_mapping', 'wb')
-                f2 = open(base_path + '/../data/a_hash_mapping', 'wb')
-                f3 = open(base_path + '/../data/np_mapping', 'wb')
+                f1 = open(self.avg_rbg_mapping_path, 'wb')
+                f2 = open(self.a_hash_mapping_path, 'wb')
+                f3 = open(self.np_mapping_path, 'wb')
                 pickle.dump(avg_rgb_mapping, f1)
                 pickle.dump(a_hash_mapping, f2)
                 pickle.dump(np_mapping, f3)
